@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "express": "^4.18.1",
+    "formidable": "^2.0.1",
+    "react": "^18.2.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "tvdisplaycontrol",
+  "version": "1.0.0",
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
