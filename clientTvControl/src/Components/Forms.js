@@ -14,6 +14,14 @@ class Form extends React.Component {
     };
   }
 
+  submit(startDate, endDate, specialCode) {
+    fetch("http://localhost:5000", {
+      method: "post",
+      mode: "cors",
+      body: "yes"
+    })
+
+  }
 
   render() {
     let errors;
@@ -35,6 +43,7 @@ class Form extends React.Component {
           value={this.state.specialCode}
           onChange={(e) => this.setState({ specialCode: e.target.value })}
         />
+        <button onClick={this.submit(this.state.startDate, this.state.endDate, this.state.specialCode)}>submit</button>
       </div>
     );
   }
