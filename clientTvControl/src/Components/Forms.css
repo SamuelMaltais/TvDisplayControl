@@ -1,0 +1,10 @@
+.form{
+    border-spacing: 2rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-left: 25%;
+    margin-right:25%;
+    background-color: deepskyblue;
+    border: 2px solid;
+}
