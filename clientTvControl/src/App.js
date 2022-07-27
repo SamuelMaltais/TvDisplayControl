@@ -13,12 +13,13 @@ export default class App extends Component {
         this.setState({
             pictures: this.state.pictures.concat(pictureFiles)
         });
+
     }
     render() {
         return (
             <div className="app">
                 <Header />
-                <Form />
+                <Form picture={this.state.pictures} />
                 <ImageUploader
                     withIcon={true}
                     buttonText="Choose images"
