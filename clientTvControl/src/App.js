@@ -6,28 +6,33 @@ import "./App.css";
 export default class App extends Component {
     constructor(props) {
         super(props);
-        this.state = { pictures: [] };
+        this.state = {
+            pictures: [],
+            pictureResponse: ""
+        };
         this.onDrop = this.onDrop.bind(this);
     }
     onDrop(pictureFiles, pictureDataURLs) {
         this.setState({
-            pictures: this.state.pictures.concat(pictureFiles)
-        });
-
+            pictures: this.state.pictures.concat(pictureFiles),
+            pictureResponse: "Picture selected: " + pictureFiles
+        })
     }
     render() {
         return (
             <div className="app">
                 <Header />
-                <Form picture={this.state.pictures} />
+                <Form picture={this.state.pictures[0]} />
+                <p>{this.state.pictureResponse}</p>
                 <ImageUploader
+                    name="picture"
                     withIcon={true}
-                    buttonText="Choose images"
+                    buttonText="Choose image"
                     onChange={this.onDrop}
-                    imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                    imgExtension={[".jpg", ".gif", ".png"]}
                     maxFileSize={5242880}
                 />
-                <img src={this.state.pictures[0]} alt="Your image" height={200} width={200} />
+
             </div>
         )
     }
