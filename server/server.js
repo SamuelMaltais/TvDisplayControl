@@ -12,12 +12,14 @@ app.post("/upload", async (req, res) => {
   if (!req.files) {
     res.send({
       status: false,
-      message: 'No file uploaded'
+      message: 'No file uploaded, please select a picture'
     });
   }
   else {
+
     let avatar = req.files.picture;
-    avatar.mv('./uploads/' + avatar.name);
+    avatar.mv('./uploads/' + req.body.startDate + " " + req.body.endDate);
+    console.log("message uploaded");
     res.send({
       status: true,
       message: 'File is uploaded ! It will be displayed between' + req.body.startDate + " to: " + req.body.endDate,

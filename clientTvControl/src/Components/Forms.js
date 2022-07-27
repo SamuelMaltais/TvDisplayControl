@@ -18,7 +18,7 @@ class Form extends React.Component {
 
   submit(startDate, endDate, specialCode, picture) {
     let allowed = true;
-    if (startDate[4] != "/" || endDate[4] != "/" || startDate[7] != "/" || endDate[7] != "/") {
+    if (startDate[4] != "_" || endDate[4] != "_" || startDate[7] != "_" || endDate[7] != "_") {
       allowed = false;
     }
     const fd = new FormData();
@@ -32,9 +32,9 @@ class Form extends React.Component {
         method: 'POST',
         body: fd
       })
-
         .then(response => {
-          this.setState({ response: "Upload succesfull" })
+          console.log(response.text());
+          this.setState({ response: "Succes" })
         })
         .catch(error => {
           this.setState({ response: "Error uploading" })
@@ -52,12 +52,12 @@ class Form extends React.Component {
       <div>
         <p>{this.state.response}</p>
         <div className="form">
-          <p>Start date of the display (YYYY/MM/DD)</p>
+          <p>Start date of the display (YYYY_MM_DD)</p>
           <input
             value={this.state.startDate}
             onChange={(e) => this.setState({ startDate: e.target.value })}
           />
-          <p>End date of the display (YYYY/MM/DD)</p>
+          <p>End date of the display (YYYY_MM_DD)</p>
           <input
             value={this.state.endDate}
             onChange={(e) => this.setState({ endDate: e.target.value })}
