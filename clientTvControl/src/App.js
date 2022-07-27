@@ -15,7 +15,7 @@ export default class App extends Component {
     onDrop(pictureFiles, pictureDataURLs) {
         this.setState({
             pictures: this.state.pictures.concat(pictureFiles),
-            pictureResponse: "Picture selected: " + pictureFiles
+            pictureResponse: "Picture selected"
         })
     }
     render() {

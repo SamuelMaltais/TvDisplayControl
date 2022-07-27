@@ -9,7 +9,6 @@ const fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
 app.post("/upload", async (req, res) => {
-  console.log(req.body.startDate + " " + req.body.endDate + " " + req.body.specialCode);
   if (!req.files) {
     res.send({
       status: false,
@@ -19,10 +18,9 @@ app.post("/upload", async (req, res) => {
   else {
     let avatar = req.files.picture;
     avatar.mv('./uploads/' + avatar.name);
-    console.log("image downloaded");
     res.send({
       status: true,
-      message: 'File is uploaded',
+      message: 'File is uploaded ! It will be displayed between' + req.body.startDate + " to: " + req.body.endDate,
       data: {
         name: avatar.name,
         mimetype: avatar.mimetype,

@@ -16,27 +16,21 @@ class Form extends React.Component {
     };
   }
 
-  submit(startDate, endDate, specialCode) {
+  submit(startDate, endDate, specialCode, picture) {
     let allowed = true;
     if (startDate[4] != "/" || endDate[4] != "/" || startDate[7] != "/" || endDate[7] != "/") {
       allowed = false;
     }
     const fd = new FormData();
-    fd.append('picture', this.state.photos);
-    console.log(this.state.phtotos);
+    fd.append('picture', picture);
+    fd.append('startDate', startDate);
+    fd.append('endDate', startDate);
+    fd.append('specialCode', startDate);
+    console.log(picture);
     if (allowed == true) {
       fetch("http://localhost:5000/upload", {
         method: 'POST',
-        body: JSON.stringify({
-          title: "Dates",
-          startDate: startDate,
-          endDate: endDate,
-          specialCode: specialCode,
-          body: fd
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        }
+        body: fd
       })
 
         .then(response => {
@@ -73,7 +67,7 @@ class Form extends React.Component {
             value={this.state.specialCode}
             onChange={(e) => this.setState({ specialCode: e.target.value })}
           />
-          <button onClick={() => this.submit(this.state.startDate, this.state.endDate, this.state.specialCode)}>submit</button>
+          <button onClick={() => this.submit(this.state.startDate, this.state.endDate, this.state.specialCode, this.props.picture)}>submit</button>
         </div>
       </div>
     );
