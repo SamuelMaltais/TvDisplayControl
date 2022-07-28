@@ -8,6 +8,7 @@ const date = new Date();
 const fileUpload = require('express-fileupload');
 app.use(fileUpload());
 var fs = require('fs');
+app.use(express.static(__dirname + '/public'));
 
 app.get("/display", (req, res) => {
   let year = date.getFullYear();
@@ -29,17 +30,13 @@ app.get("/display", (req, res) => {
       !(endMonth == month && endDay < day) &&
       !(startMonth == month && startDay > day)
     ) {
-      console.log(day + " " + month + " " + year)
-      res.sendFile("uploads/" + element, { root: __dirname });
-      setTimeout(function () {
-        console.log("Waiting")
-      }, 5000);
+      res.sendFile("public/" + element, { root: __dirname });
     }
   });
 
 
 })
-app.post("/upload", async (req, res) => {
+app.post("/public", async (req, res) => {
   if (!req.files) {
     res.send({
       status: false,
