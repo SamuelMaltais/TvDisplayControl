@@ -23,7 +23,7 @@ export default class Display extends Component {
                     document.body.style.backgroundSize = "cover"
                     document.body.style.backgroundImage = "url('http://localhost:5000/" + path + "')"
                     setTimeout(function () {
-                        changeBackground(path);
+                        //changeBackground(path);
                     }, 8000);
                 });
             })
