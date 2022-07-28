@@ -14,7 +14,8 @@ app.get("/display", (req, res) => {
   let year = date.getFullYear();
   let day = date.getDate();
   let month = date.getMonth() + 1;
-  var files = fs.readdirSync('./uploads');
+  var files = fs.readdirSync('./public');
+  let elementstring = "";
   files.forEach(element => {
     let startYear = parseInt(element[0] + element[1] + element[2] + element[3]);
     let startMonth = parseInt(element[5] + element[6]);
@@ -30,13 +31,16 @@ app.get("/display", (req, res) => {
       !(endMonth == month && endDay < day) &&
       !(startMonth == month && startDay > day)
     ) {
-      res.sendFile("public/" + element, { root: __dirname });
+      elementstring = elementstring + element + " "
     }
   });
-
+  res.send({
+    status: true,
+    message: elementstring
+  })
 
 })
-app.post("/public", async (req, res) => {
+app.post("/upload", async (req, res) => {
   if (!req.files) {
     res.send({
       status: false,
@@ -52,7 +56,7 @@ app.post("/public", async (req, res) => {
     }
     else {
       let avatar = req.files.picture;
-      avatar.mv('./uploads/' + req.body.startDate + req.body.endDate + avatar.name);
+      avatar.mv('./public/' + req.body.startDate + req.body.endDate + avatar.name);
       console.log("message uploaded");
       res.send({
         status: true,
