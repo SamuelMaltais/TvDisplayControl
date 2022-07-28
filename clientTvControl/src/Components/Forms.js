@@ -24,8 +24,8 @@ class Form extends React.Component {
     const fd = new FormData();
     fd.append('picture', picture);
     fd.append('startDate', startDate);
-    fd.append('endDate', startDate);
-    fd.append('specialCode', startDate);
+    fd.append('endDate', endDate);
+    fd.append('specialCode', specialCode);
     console.log(picture);
     if (allowed == true) {
       fetch("http://localhost:5000/upload", {
@@ -33,8 +33,10 @@ class Form extends React.Component {
         body: fd
       })
         .then(response => {
-          console.log(response.text());
-          this.setState({ response: "Succes" })
+          return response.json()
+        })
+        .then(body => {
+          this.setState({ response: body.message })
         })
         .catch(error => {
           this.setState({ response: "Error uploading" })

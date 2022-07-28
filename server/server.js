@@ -16,19 +16,27 @@ app.post("/upload", async (req, res) => {
     });
   }
   else {
-
+    if(req.body.specialCode != "McGill is the best!"){
+      console.log(req.body.specialCode);
+      res.send({
+        status: false,
+        message: "Wrong code"
+      })
+    }
+    else{
     let avatar = req.files.picture;
-    avatar.mv('./uploads/' + req.body.startDate + " " + req.body.endDate);
+    avatar.mv('./uploads/' + avatar.name);
     console.log("message uploaded");
     res.send({
       status: true,
-      message: 'File is uploaded ! It will be displayed between' + req.body.startDate + " to: " + req.body.endDate,
+      message: 'File is uploaded ! It will be displayed between ' + req.body.startDate + " to: " + req.body.endDate,
       data: {
         name: avatar.name,
         mimetype: avatar.mimetype,
         size: avatar.size
       }
     });
+  }
   }
 })
 app.listen(5000, () => { console.log("Server started on port 5000") }) 
