@@ -8,7 +8,50 @@ const date = new Date();
 const fileUpload = require('express-fileupload');
 app.use(fileUpload());
 var fs = require('fs');
+const e = require('express');
 app.use(express.static(__dirname + '/public'));
+
+app.get("/delete", (req, res) => {
+  var files = fs.readdirSync('./public');
+  let elementstring = ""
+  files.forEach(element =>{
+    elementstring = elementstring + element + " "
+  })
+  res.send({
+    status: true,
+    message: elementstring
+  })
+})
+app.post("/deleteRequest",(req, res) =>{
+  if(req.body.specialCode != "McGill is the best!"){
+    res.send({
+      status: false,
+      message: "Wrong code"
+    })
+  }
+  else{
+    console.log(req.body.deletedFile)
+    let path = "./public/" + req.body.deletedFile;
+    if(path != "./public/"){
+    fs.unlink(path, function (err) {
+      if (err) throw err;
+      // if no error, file has been deleted successfully
+      console.log('File deleted!');
+      res.send({
+        status: true,
+        message: "File deleted"
+      })
+  });
+}
+  else{
+    res.send({
+      status: false,
+      message: "didnt work"
+    })
+  }
+  }
+});
+
 
 app.get("/display", (req, res) => {
   let year = date.getFullYear();
@@ -23,7 +66,16 @@ app.get("/display", (req, res) => {
     let endYear = parseInt(element[10] + element[11] + element[12] + element[13]);
     let endMonth = parseInt(element[15] + element[16]);
     let endDay = parseInt(element[18] + element[19]);
-    if (
+    if(
+      (endYear > year ||
+      (endYear == year && endMonth > month))
+      &&
+      startYear <= year
+      ){
+        elementstring = elementstring + element + " "
+      }
+    
+    else if (
       startYear <= year &&
       startMonth <= month &&
       endMonth >= month &&
@@ -56,7 +108,9 @@ app.post("/upload", async (req, res) => {
     }
     else {
       let avatar = req.files.picture;
-      avatar.mv('./public/' + req.body.startDate + req.body.endDate + avatar.name);
+      let str = avatar.name;
+      str = str.replace(/\s/g, '');
+      avatar.mv('./public/' + req.body.startDate + req.body.endDate + str);
       console.log("message uploaded");
       res.send({
         status: true,
@@ -70,4 +124,4 @@ app.post("/upload", async (req, res) => {
     }
   }
 })
-app.listen(5000, () => { console.log("Server started on port 5000") }) 
+app.listen(process.env.PORT || 5000, () => { console.log("Server started on port 5000") }) 

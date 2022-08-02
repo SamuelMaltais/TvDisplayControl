@@ -13,7 +13,7 @@ export default class Display extends Component {
 
   getImage = () => {
     let elementstring = "";
-    fetch("http://localhost:5000/display")
+    fetch("https://server-for-mcgill-display.herokuapp.com/display")
       .then((response) => {
         return response.json();
       })
@@ -26,7 +26,7 @@ export default class Display extends Component {
         console.log(array);
         if (!this.state.hasInterval) {
           this.triggerOnInterval();
-          this.timerID = setInterval(() => this.triggerOnInterval(), 7000);
+          this.timerID = setInterval(() => this.triggerOnInterval(), 12000);
           this.setState({ hasInterval: true });
         }
       })
@@ -34,9 +34,10 @@ export default class Display extends Component {
         console.log(error);
       });
   };
-  componentDidMount() {
+  componentWillMount(){
     this.getImage();
   }
+  
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
@@ -44,10 +45,10 @@ export default class Display extends Component {
     let path =
       this.state.result[this.state.increment % this.state.result.length];
     document.body.style.backgroundImage =
-      "url('http://localhost:5000/" + path + "')";
+      "url('https://server-for-mcgill-display.herokuapp.com/" + path + "')";
     this.setState({ increment: this.state.increment + 1 });
     console.log(this.state.result);
-    if (this.state.increment % 60 == 0) {
+    if (this.state.increment % 120 == 0) {
       this.getImage();
     }
   };

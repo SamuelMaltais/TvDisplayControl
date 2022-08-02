@@ -29,7 +29,7 @@ export default class App extends Component {
                     withIcon={true}
                     buttonText="Choose image"
                     onChange={this.onDrop}
-                    imgExtension={[".jpg", ".gif", ".png"]}
+                    imgExtension={[".jpg", ".gif", ".png",".jpeg"]}
                     maxFileSize={5242880}
                 />
 

@@ -1,0 +1,21 @@
+.delete-page-container{
+    text-align: center;
+}
+.card-container{
+    display: flex;
+    flex-wrap: wrap;
+    
+    
+}
+.card{
+    text-align: left;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-width: 2px;
+    border-color: black;
+    border-style: outset;
+    border-radius: 3px;
+    max-width: 50%;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+}

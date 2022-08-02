@@ -21,6 +21,8 @@ class Form extends React.Component {
     if (startDate[4] != "_" || endDate[4] != "_" || startDate[7] != "_" || endDate[7] != "_") {
       allowed = false;
     }
+    console.log(picture);
+
     const fd = new FormData();
     fd.append('picture', picture);
     fd.append('startDate', startDate);
@@ -28,7 +30,7 @@ class Form extends React.Component {
     fd.append('specialCode', specialCode);
     console.log(picture);
     if (allowed == true) {
-      fetch("http://localhost:5000/upload", {
+      fetch("https://server-for-mcgill-display.herokuapp.com/upload", {
         method: 'POST',
         body: fd
       })
