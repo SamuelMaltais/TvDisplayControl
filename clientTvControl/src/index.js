@@ -13,7 +13,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/display" element={<Display />} />
-      <Route path="/delete" element={<Delete />} />
+      <Route path="/delete" element={<Delete />} />;
     </Routes>
   </BrowserRouter>
 );

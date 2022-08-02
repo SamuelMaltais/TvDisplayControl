@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import { Component } from "react";
+
 export default class Display extends Component {
   constructor(props) {
     super(props);
@@ -6,12 +7,11 @@ export default class Display extends Component {
       image: "ok",
       increment: 0,
       result: [],
+      hasInterval: false,
     };
-    this.getImage();
   }
 
   getImage = () => {
-    let result = [];
     let elementstring = "";
     fetch("http://localhost:5000/display")
       .then((response) => {
@@ -19,24 +19,30 @@ export default class Display extends Component {
       })
       .then((body) => {
         elementstring = body.message;
-        result = elementstring.trim().split(/\s+/);
-        this.setState({ result: result });
+        let array = elementstring.trim().split(/\s+/);
+        this.setState({ result: array });
         document.body.style.backgroundRepeat = "no-repeat";
         document.body.style.backgroundSize = "cover";
-        document.body.style.backgroundImage =
-          "url('http://localhost:5000/" + result[0] + "')";
-        setInterval(triggerOnInterval(result), 7000);
+        console.log(array);
+        if (!this.state.hasInterval) {
+          this.timerID = setInterval(() => this.triggerOnInterval(), 7000);
+          this.setState({ hasInterval: true });
+        }
       })
       .catch((error) => {
-        console.log("error");
+        console.log(error);
       });
   };
+  componentDidMount() {
+    this.getImage();
+  }
   triggerOnInterval = () => {
-    path = this.state.result[this.state.increment % this.state.result.length];
+    let path =
+      this.state.result[this.state.increment % this.state.result.length];
     document.body.style.backgroundImage =
       "url('http://localhost:5000/" + path + "')";
     this.setState({ increment: this.state.increment + 1 });
-    console.log(path);
+    console.log(this.state.result);
   };
   changeResultString = () => {};
 

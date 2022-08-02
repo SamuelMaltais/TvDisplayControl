@@ -1,3 +1,4 @@
+import React, { Component } from "react";
 class Delete extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +13,7 @@ class Delete extends Component {
         return response.json();
       })
       .then((body) => {
-        elementstring = body.message;
+        let elementstring = body.message;
         this.setState({ images: elementstring.trim().split(/\s+/) });
       })
       .catch((error) => {
@@ -20,7 +21,7 @@ class Delete extends Component {
       });
   };
   render() {
-    this.getImageArray;
+    this.getImageArray();
     return (
       <div>
         <h1>View and delete current posts</h1>
