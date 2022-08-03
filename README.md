@@ -10,7 +10,7 @@ You can use this for your own school ! To do that:
 
 2: Deploy the express app. Heroku will host it for free.
 
-3: Change the upload links on the client. Every fetch should point to you express app.
+3: Change the upload links on the client. Every fetch should point to your express app.
 
 4: Deploy the react app(clientTvControl). I suggest doing npm run build and putting the build folder on any platform that will host it.
 I used netlify.
