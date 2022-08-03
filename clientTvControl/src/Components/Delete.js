@@ -71,9 +71,9 @@ function CardsForDisplay(props){
         <li>Start date day: {element[8] + element[9]}</li>
         </ul>
         <ul>
-        <li>End date year: {element[0] + element[1] + element[2] + element[3]}</li>
-        <li>End date month: {element[5] + element[6]}</li>
-        <li>End date day: {element[8] + element[9]}</li>
+        <li>End date year: {element[10] + element[11] + element[12] + element[13]}</li>
+        <li>End date month: {element[15] + element[16]}</li>
+        <li>End date day: {element[18] + element[19]}</li>
         </ul>
         <img src={"https://server-for-mcgill-display.herokuapp.com/" + element} width={200} height={150} style={{justifyContent: "center"}}></img>
         <button style={{textAlign: "center"}} onClick={() => deleteCard(element)}>Delete</button>
