@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import "./Delete.css"
 
 class Delete extends Component {
@@ -37,10 +37,10 @@ class Delete extends Component {
     );
   }
 }
-function deleteCard(element){
+function deleteCard(element, specialCode){
   console.log(element)
   const fd = new FormData();
-  fd.append("specialCode", "McGill is the best!");
+  fd.append("specialCode", specialCode);
   fd.append("deletedFile", element)
   fetch("https://server-for-mcgill-display.herokuapp.com/deleteRequest", {
         method: 'POST',
@@ -50,7 +50,7 @@ function deleteCard(element){
           return response.json()
         })
         .then(body => {
-          console.log(body.message)
+          alert(body.message)
         })
         .catch(error => {
           console.log(error)
@@ -58,6 +58,7 @@ function deleteCard(element){
 }
 
 function CardsForDisplay(props){
+  const [specialCode, setSpecialCode] = useState("");
   let cardList = []
   let images = props.images;
     images.forEach(element => {
@@ -75,8 +76,13 @@ function CardsForDisplay(props){
         <li>End date month: {element[15] + element[16]}</li>
         <li>End date day: {element[18] + element[19]}</li>
         </ul>
+        <p style={{textAlign: "center"}}>Enter code to delete:</p> 
+        <input
+            value={specialCode}
+            onChange={(e) => setSpecialCode(e.target.value)}
+          />
         <img src={"https://server-for-mcgill-display.herokuapp.com/" + element} width={200} height={150} style={{justifyContent: "center"}}></img>
-        <button style={{textAlign: "center"}} onClick={() => deleteCard(element)}>Delete</button>
+        <button style={{textAlign: "center"}} onClick={() => deleteCard(element, specialCode)}>Delete</button>
       </div>
     )
   });

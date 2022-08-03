@@ -23,10 +23,9 @@ export default class Display extends Component {
         this.setState({ result: array });
         document.body.style.backgroundRepeat = "no-repeat";
         document.body.style.backgroundSize = "cover";
-        console.log(array);
         if (!this.state.hasInterval) {
           this.triggerOnInterval();
-          this.timerID = setInterval(() => this.triggerOnInterval(), 12000);
+          this.timerID = setInterval(() => this.triggerOnInterval(), 15000);
           this.setState({ hasInterval: true });
         }
       })
@@ -34,7 +33,7 @@ export default class Display extends Component {
         console.log(error);
       });
   };
-  componentWillMount(){
+  componentDidMount(){
     this.getImage();
   }
   
