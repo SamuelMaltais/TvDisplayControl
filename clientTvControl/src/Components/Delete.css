@@ -4,19 +4,17 @@
 .card-container{
     display: flex;
     flex-wrap: wrap;
-    
-    
 }
 .card{
     text-align: left;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    background-color: darkslategrey;
+    background-color: lightblue;
     border-width: 2px;
     border-color: black;
     border-style: outset;
     border-radius: 3px;
-    max-width: 50%;
     margin: 5px;
+    max-width: 50%;
     display: flex;
     flex-direction: column;
 }

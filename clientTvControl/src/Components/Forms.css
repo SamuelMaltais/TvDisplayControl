@@ -3,8 +3,24 @@
     display: flex;
     flex-direction: column;
     text-align: center;
+    margin-right: 25%;
     margin-left: 25%;
-    margin-right:25%;
     background-color: deepskyblue;
     border: 2px solid;
+    display: grid;
+}
+.submit-button{
+    padding: 6px 23px;
+    background: #3f4257;
+    border-radius: 30px;
+    color: white;
+    font-weight: 300;
+    font-size: 14px;
+    margin: 10px 0;
+    transition: all 0.2s ease-in;
+    cursor: pointer;
+    margin-right: 30%;
+    margin-left: 30%;
+    outline: none;
+    border: none;
 }

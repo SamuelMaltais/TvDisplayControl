@@ -1,0 +1,33 @@
+.display-main-image{
+    position: fixed;
+    width: 90%;
+    height: 100%;
+}
+.column{
+    font-size: 30px;
+    position: fixed;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    margin-left: 90%;
+    height: 100%;
+    fill: black;
+    text-align: center;
+}
+.thing{ 
+    margin: 3px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+.temperature-text{
+    font: bolder;
+    font-size: 36px;
+}
+.time{
+    margin-right: 7px;
+    margin-left: 7px;
+    font-size: 36px;
+    font: bolder;
+}

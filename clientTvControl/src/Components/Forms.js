@@ -12,14 +12,20 @@ class Form extends React.Component {
       endDate: "",
       specialCode: "",
       response: "The special code should be known by the techs. If they forgot, ask them to look into summer 2022 intern Samuel Maltais's folders",
-      photos: []
+      photos: [],
+      time: ""
     };
   }
 
-  submit(startDate, endDate, specialCode, picture) {
+  submit(startDate, endDate, specialCode, picture, time) {
     let allowed = true;
     if (startDate[4] != "_" || endDate[4] != "_" || startDate[7] != "_" || endDate[7] != "_") {
       allowed = false;
+      this.setState({ response: "Wrong date format" });
+    }
+    if (time[2] != "_") {
+      allowed = false;
+      this.setState({ response: "Wrong time format, put 23_59 if you don't care about it" })
     }
     console.log(picture);
 
@@ -28,6 +34,8 @@ class Form extends React.Component {
     fd.append('startDate', startDate);
     fd.append('endDate', endDate);
     fd.append('specialCode', specialCode);
+    fd.append('time', time);
+
     console.log(picture);
     if (allowed == true) {
       fetch("https://server-for-mcgill-display.herokuapp.com/upload", {
@@ -43,9 +51,6 @@ class Form extends React.Component {
         .catch(error => {
           this.setState({ response: "Error uploading" })
         });
-    }
-    else {
-      this.setState({ response: "Wrong date format" })
     }
   }
 
@@ -71,7 +76,12 @@ class Form extends React.Component {
             value={this.state.specialCode}
             onChange={(e) => this.setState({ specialCode: e.target.value })}
           />
-          <button onClick={() => this.submit(this.state.startDate, this.state.endDate, this.state.specialCode, this.props.picture)}>submit</button>
+          <p>End time of the display (Hour_Min, like 16_45)</p>
+          <input
+            value={this.state.time}
+            onChange={(e) => this.setState({ time: e.target.value })}
+          />
+          <button className="submit-button" onClick={() => this.submit(this.state.startDate, this.state.endDate, this.state.specialCode, this.props.picture, this.state.time)}>submit</button>
         </div>
       </div>
     );
