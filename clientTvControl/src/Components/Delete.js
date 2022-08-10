@@ -10,7 +10,7 @@ class Delete extends Component {
   }
   state = {};
   fetchImages = () => {
-    fetch("http://localhost:5000/delete")
+    fetch("https://server-for-mcgill-display.herokuapp.com/delete")
       .then((response) => {
         return response.json();
       })
@@ -42,7 +42,7 @@ function deleteCard(element, specialCode) {
   const fd = new FormData();
   fd.append("specialCode", specialCode);
   fd.append("deletedFile", element)
-  fetch("http://localhost:5000/deleteRequest", {
+  fetch("https://server-for-mcgill-display.herokuapp.com/deleteRequest", {
     method: 'POST',
     body: fd
   })

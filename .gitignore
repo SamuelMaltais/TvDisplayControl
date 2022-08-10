@@ -1,5 +1,5 @@
 server/node_modules
-server/secrets.env
+server/.env
 clientTvControl/node_modules
 clientTvControl/build
 .netlify

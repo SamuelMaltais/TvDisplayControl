@@ -20,7 +20,7 @@ export default class Display extends Component {
 
   getImage = () => {
     let elementstring = "";
-    fetch("http://localhost:5000/display")
+    fetch("https://server-for-mcgill-display.herokuapp.com/display")
       .then((response) => {
         return response.json();
       })
