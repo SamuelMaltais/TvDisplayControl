@@ -10,7 +10,7 @@ class Delete extends Component {
   }
   state = {};
   fetchImages = () => {
-    fetch("https://server-for-mcgill-display.herokuapp.com/delete")
+    fetch("http://localhost:5000/delete")
       .then((response) => {
         return response.json();
       })
@@ -42,7 +42,7 @@ function deleteCard(element, specialCode) {
   const fd = new FormData();
   fd.append("specialCode", specialCode);
   fd.append("deletedFile", element)
-  fetch("https://server-for-mcgill-display.herokuapp.com/deleteRequest", {
+  fetch("http://localhost:5000/deleteRequest", {
     method: 'POST',
     body: fd
   })
@@ -51,6 +51,7 @@ function deleteCard(element, specialCode) {
     })
     .then(body => {
       alert(body.message)
+      document.location.reload()
     })
     .catch(error => {
       console.log(error)
@@ -84,7 +85,7 @@ function CardsForDisplay(props) {
           value={specialCode}
           onChange={(e) => setSpecialCode(e.target.value)}
         />
-        <img src={"https://server-for-mcgill-display.herokuapp.com/" + element} width={200} height={150} style={{ justifyContent: "center" }}></img>
+        <img src={"https://tvdisplaycontrol.s3.ca-central-1.amazonaws.com/" + element} width={200} height={150} style={{ justifyContent: "center" }}></img>
         <button style={{ textAlign: "center" }} onClick={() => deleteCard(element, specialCode)}>Delete</button>
       </div>
     )

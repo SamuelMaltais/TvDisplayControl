@@ -38,7 +38,7 @@ class Form extends React.Component {
 
     console.log(picture);
     if (allowed == true) {
-      fetch("https://server-for-mcgill-display.herokuapp.com/upload", {
+      fetch("http://localhost:5000/upload", {
         method: 'POST',
         body: fd
       })

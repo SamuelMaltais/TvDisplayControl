@@ -20,7 +20,7 @@ export default class Display extends Component {
 
   getImage = () => {
     let elementstring = "";
-    fetch("https://server-for-mcgill-display.herokuapp.com/display")
+    fetch("http://localhost:5000/display")
       .then((response) => {
         return response.json();
       })
@@ -66,7 +66,7 @@ export default class Display extends Component {
   triggerOnInterval = () => {
     let path =
       this.state.result[this.state.increment % this.state.result.length];
-    this.setState({ url: "https://server-for-mcgill-display.herokuapp.com/" + path })
+    this.setState({ url: "https://tvdisplaycontrol.s3.ca-central-1.amazonaws.com/" + path })
     this.setState({ increment: this.state.increment + 1 });
     console.log(this.state.result);
     if (this.state.increment % 20 == 0) {
@@ -84,10 +84,10 @@ export default class Display extends Component {
         <h1>Infos</h1>
         <p className="thing">⌚Time⌚</p>
         <p className="time">{this.state.time}</p>
-        <p className="thing"> 🌡️️Temperature🌡️ outside</p>
+        <p className="thing"> 🌡️️Outside🌡️</p>
         <p className="temperature-text">{this.state.temp.toString()[0] + this.state.temp.toString()[1]}°C</p>
         <p className="thing"> Weather</p>
-        <p className="thing">{this.state.description}</p>
+        <p className="description">{this.state.description}</p>
 
 
       </div>

@@ -9,16 +9,28 @@ app.use(fileUpload());
 var fs = require('fs');
 const e = require('express');
 app.use(express.static(__dirname + '/public'));
+const AWS = require('aws-sdk');
+require('dotenv').config();
+const params = {
+  Bucket: 'tvdisplaycontrol',
+  Delimiter: '',
+}
+const s3 = new AWS.S3({
+  accessKeyId: process.env.KEY,
+  secretAccessKey: process.env.SECRETKEY,
+})
 
-app.get("/delete", (req, res) => {
-  var files = fs.readdirSync('./public');
+app.get("/delete", async (req, res) => {
   let elementstring = ""
-  files.forEach(element => {
-    elementstring = elementstring + element + " "
-  })
-  res.send({
-    status: true,
-    message: elementstring
+  s3.listObjects(params, function (err, data) {
+    if (err) { console.log(err) };
+    data.Contents.forEach(element => {
+      elementstring = elementstring + element.Key + " "
+    });
+    res.send({
+      status: true,
+      message: elementstring
+    })
   })
 })
 app.post("/deleteRequest", (req, res) => {
@@ -30,24 +42,10 @@ app.post("/deleteRequest", (req, res) => {
   }
   else {
     console.log(req.body.deletedFile)
-    let path = "./public/" + req.body.deletedFile;
-    if (path != "./public/") {
-      fs.unlink(path, function (err) {
-        if (err) throw err;
-        // if no error, file has been deleted successfully
-        console.log('File deleted!');
-        res.send({
-          status: true,
-          message: "File deleted"
-        })
-      });
-    }
-    else {
-      res.send({
-        status: false,
-        message: "didnt work"
-      })
-    }
+    s3.deleteObject({ Bucket: 'tvdisplaycontrol', Key: req.body.deletedFile }, function (err, data) {
+      if (err) res.send({ status: false, message: "Deletion failed" });
+      else res.send({ status: false, message: "File deleted" });
+    });
   }
 });
 
@@ -64,43 +62,33 @@ app.get("/display", (req, res) => {
   var hour = addZeros(date.getHours());
   var minute = addZeros(date.getMinutes());
   let elementstring = "";
-  files.forEach(element => {
-    let startYear = parseInt(element[0] + element[1] + element[2] + element[3]);
-    let startMonth = parseInt(element[5] + element[6]);
-    let startDay = parseInt(element[8] + element[9]);
-    let endYear = parseInt(element[10] + element[11] + element[12] + element[13]);
-    let endMonth = parseInt(element[15] + element[16]);
-    let endDay = parseInt(element[18] + element[19]);
-    let endHour = parseInt(element[20] + element[21])
-    let endMinute = parseInt(element[23] + element[24])
-    if (endDay == day && endMonth == month && endYear == year) {
-      if (endHour > hour || (endMinute > minute && hour == endHour)) {
-        elementstring = elementstring + element + " ";
+  s3.listObjects(params, function (err, data) {
+    if (err) { console.log(err) };
+    data.Contents.forEach(element => {
+      var startDate = new Date(parseInt(element.Key[0] + element.Key[1] + element.Key[2] + element.Key[3]),
+        parseInt(element.Key[5] + element.Key[6]) - 1, parseInt(element.Key[8] + element.Key[9]));
+      var endDate = new Date(parseInt(element.Key[10] + element.Key[11] + element.Key[12] + element.Key[13]), parseInt(element.Key[15] + element.Key[16]) - 1,
+        parseInt(element.Key[18] + element.Key[19]))
+      let endHour = parseInt(element.Key[20] + element.Key[21])
+      let endMinute = parseInt(element.Key[23] + element.Key[24])
+      if (year == parseInt(element.Key[10] + element.Key[11] + element.Key[12] + element.Key[13]) && day == parseInt(element.Key[18] + element.Key[19]) && month == parseInt(element.Key[15] + element.Key[16])) {
+        if (endHour > hour || (hour == endHour && minute < endMinute)) {
+          elementstring += element.Key + " ";
+          console.log("Same day, hour before end")
+        }
       }
-    }
-    else if (
-      (endYear > year ||
-        (endYear == year && endMonth > month))
-      &&
-      startYear <= year
-    ) {
-      elementstring = elementstring + element + " "
-    }
-    else if (
-      startYear <= year &&
-      startMonth <= month &&
-      endMonth >= month &&
-      endYear >= year &&
-      !(endMonth == month && endDay < day) &&
-      !(startMonth == month && startDay > day)
-    ) {
-      elementstring = elementstring + element + " "
-    }
-  });
-  res.send({
-    status: true,
-    message: elementstring
+      if (date > startDate && date < endDate) {
+        elementstring += element.Key + " ";
+        console.log("Between the dates" + element.Key)
+      }
+
+    });
+    res.send({
+      status: true,
+      message: elementstring
+    })
   })
+
 
 })
 app.post("/upload", async (req, res) => {
@@ -121,13 +109,13 @@ app.post("/upload", async (req, res) => {
       let avatar = req.files.picture;
       let str = avatar.name;
       str = str.replace(/\s/g, '');
-      try {
-        avatar.mv('./public/' + req.body.startDate + req.body.endDate + req.body.time + str);
-      }
-      catch{
-        avatar.mv('./public/' + req.body.startDate + req.body.endDate + str);
-      }
-      console.log("message uploaded");
+      let name = req.body.startDate + req.body.endDate + req.body.time + str
+      const uploadedImage = await s3.upload({
+        Bucket: "tvdisplaycontrol",
+        Key: name,
+        Body: avatar.data,
+      }).promise()
+      console.log("Posted")
       res.send({
         status: true,
         message: 'File is uploaded ! It will be displayed between ' + req.body.startDate + " to: " + req.body.endDate,

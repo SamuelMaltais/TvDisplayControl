@@ -25,6 +25,13 @@
     font: bolder;
     font-size: 36px;
 }
+.description{
+    margin: 3px;
+    margin-right: 5px;
+    margin-left: 5px;
+    font: bolder;
+    font-size: 40px;
+}
 .time{
     margin-right: 7px;
     margin-left: 7px;
