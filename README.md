@@ -1,4 +1,5 @@
-# TvDisplayForSchool
+# Tv display client & server
+## for publishing images to your company/school's tv
 
 This webserver is used to have a simple uploading interface to
 control the school's tv slides. The client uploads pictures to the server
