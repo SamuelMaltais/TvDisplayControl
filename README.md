@@ -9,7 +9,7 @@ You can use this for your own school ! To do that:
 
 1: Change the specialCode in the server post requests. The one I use is different in production and yours should too.
 
-2: Deploy the express app. Heroku will host it for free.
+2: Deploy the express app
 
 3: Change the upload links on the client. Every fetch should point to your express app.
 
